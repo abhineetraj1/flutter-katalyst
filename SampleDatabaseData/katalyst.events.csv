@@ -1,0 +1,5 @@
+_id,name,email,address,timing,author,userID,date
+66f981f27eea689a044c7198,Startup - standup comedy,mem1@localhost,"Ashol venue, Rajendra Nagar, New Delhi, India",7:30pm - 8:30pm,Andrew,66f981937eea689a044c7195,29 Sep 2024 - 08 Dec 2024
+66f9821f7eea689a044c7199,UPSC - standup comedy,mem1@localhost,"Ashok venue, Rajendra Nagar, New Delhi, India",7:30pm - 8:30pm,Andrew,66f981937eea689a044c7195,29 Sep 2024 - 08 Dec 2024
+66fe0b7fc21935a53e49819d,Hostel - standup comedy,contact@localhost,"Ashol venue, Rajendra Nagar, New Delhi, India",7:30pm - 8:30pm,Joseph,66f981937eea689a044c7195,29 Sep 2024 - 08 Dec 2024
+66fe0ba3c21935a53e4981a0,School - standup comedy,contact@localhost,"Ashol venue, Rajendra Nagar, New Delhi, India",7:30pm - 8:30pm,Joseph,66f981937eea689a044c7195,29 Sep 2024 - 08 Dec 2024
