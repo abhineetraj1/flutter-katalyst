@@ -127,7 +127,7 @@ ChangePersonalInfo(context, email, type, value)  async{
         evnt.updateMany(where.eq("email", Email), modify.set("email", value));
         Email = value;
       }
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) {return PersonalDetails(email: type == "email" ? value : Email,);}));
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) {return const Dashboard(initialIndex: 3);}));
     }
   } else {
     AlertBox(context, "Internet", "No internet connection");
@@ -150,7 +150,7 @@ AddWorkshopInDatabase(context, name, date, timing, address) async{
       "email":Email,
       "userID": userDetails != null ? userDetails["_id"].toString() : ""
     });
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) {return AddWorkshop();}));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {return const Dashboard(initialIndex: 2);}));
   } else {
     AlertBox(context, "Internet", "No internet connection");
   }
@@ -174,11 +174,11 @@ DeleteWorkshop(context, name) async {
     var db = await Db.create(MongoURL);
     await db.open();
     var events = await db.collection("events");
-    var bookings = await db.collection("events");
+    var bookings = await db.collection("bookings");
     var eventDetails = await events.findOne(where.eq("email", Email).eq("name", name));
     await events.deleteOne(where.eq("email", Email).eq("name", name));
-    await bookings.deleteOne(where.eq("eventID", eventDetails != null ? eventDetails["_id"] : ""));
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) {return MyWorkshop();}));
+    await bookings.deleteMany(where.eq("eventID", eventDetails != null ? eventDetails["_id"] : ""));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {return MyWorkshop();})).then((_) => LoadMyWorkshops(context));
   } else {
     AlertBox(context, "Internet", "No internet connection");
     return false;
@@ -196,7 +196,7 @@ LoadBookingHistory(context) async{
     return listOfHistory;
   } else {
     AlertBox(context, "Internet", "No internet connection");
-    return false;
+    return [];
   }
 }
 
@@ -208,7 +208,7 @@ BookWorkshop(context, userID, eventID) async{
     var a = await bookings.find(where.eq("userID", userID).eq("eventID", eventID)).toList();
     if (a.length == 0) {
       await bookings.insert({"userID":userID,"eventID":eventID});
-      AlertBox(context, "Booking", "Workshop has been booked");
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) {return const Dashboard(initialIndex: 1);}));
     } else {
       AlertBox(context, "Booking", "This workshop is already booked");
     }
@@ -249,8 +249,58 @@ CancelWorkshopBooking(context, userID, eventID) async{
     await db.open();
     var evt = await db.collection("bookings");
     await evt.deleteOne(where.eq("eventID", eventID).eq("userID", userID));
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) {return BookingHistory();}));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {return const Dashboard(initialIndex: 1);}));
   } else {
     AlertBox(context, "Internet", "No internet connection");
+  }
+}
+
+GetAttendees(context, eventID) async {
+  if (await isDatabaseOnline(context)) {
+    var db = await Db.create(MongoURL);
+    await db.open();
+    var bookings = await db.collection("bookings");
+    var users = await db.collection("users");
+    
+    var bookingList = await bookings.find(where.eq("eventID", eventID)).toList();
+    
+    List attendees = [];
+    for (var b in bookingList) {
+      var user = await users.findOne(where.eq("_id", b["userID"]));
+      if (user != null) {
+        attendees.add(user);
+      }
+    }
+    return attendees;
+  } else {
+    AlertBox(context, "Internet", "No internet connection");
+    return [];
+  }
+}
+
+LoadBookedEventsDetails(context) async {
+  if (await isDatabaseOnline(context)) {
+    var db = await Db.create(MongoURL);
+    await db.open();
+    var bookings = await db.collection("bookings");
+    var events = await db.collection("events");
+    var users = await db.collection("users");
+    
+    var userDetails = await users.findOne(where.eq("email", Email));
+    if (userDetails == null) return [];
+    
+    var userBookings = await bookings.find(where.eq("userID", userDetails["_id"])).toList();
+    
+    List bookedEvents = [];
+    for (var b in userBookings) {
+      var event = await events.findOne(where.eq("_id", b["eventID"]));
+      if (event != null) {
+        bookedEvents.add(event);
+      }
+    }
+    return bookedEvents;
+  } else {
+    AlertBox(context, "Internet", "No internet connection");
+    return [];
   }
 }

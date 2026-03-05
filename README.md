@@ -1,15 +1,17 @@
 # Katalyst
 
-https://github.com/user-attachments/assets/0fbee4cd-89b5-441e-b046-e7af07f0bbc9
-
-
-Katalyst is a dynamic platform for hosting workshops, allowing users to easily sign up and manage their own events. Users can create, modify, and cancel workshops, as well as book spots in other sessions.
+Katalyst is a modern, comprehensive workshop management platform designed to connect hosts and learners. It empowers users to discover, book, and host workshops seamlessly through an intuitive and visually appealing interface.
 
 ## Features:
-* User Registration and Login
-* Create, edit, and delete workshops
-* Access booking history, cancel booked workshop and view hosted workshops
-* Update personal information—name, email, and password
+*   **Secure Authentication**: Robust sign-up and login system to manage user accounts.
+*   **Interactive Dashboard**: A unified, tabbed interface with a modern floating navigation bar for easy access to all features.
+*   **Discover & Search**: Browse a curated list of workshops, search by name, and filter events by status (Upcoming, Live, Past) to find exactly what you're looking for.
+*   **Seamless Booking**: Book spots in workshops instantly, view your booking history with status filters, and cancel reservations if plans change.
+*   **Powerful Hosting Tools**:
+    *   Create and publish new workshops with ease using intuitive date and time pickers.
+    *   Manage your hosted events: Edit details or delete workshops.
+    *   View a list of attendees for your events to keep track of participants.
+*   **Profile Management**: Update your personal information (Name, Email, Password) and manage your account settings.
 
 # Installation
 
